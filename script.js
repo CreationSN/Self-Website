@@ -352,6 +352,270 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
+	// --- CUSTOM CURSOR TRACKING WITH PEN TOOL EFFECT ---
+	const cursor = document.createElement("div");
+	cursor.classList.add("custom-cursor");
+	document.body.appendChild(cursor);
+
+	let mouseX = 0;
+	let mouseY = 0;
+	let cursorX = 0;
+	let cursorY = 0;
+	let isHoveringInteractive = false;
+
+	document.addEventListener("mousemove", (e) => {
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+
+		// Smooth cursor follow with easing
+		cursorX += (mouseX - cursorX) * 0.25;
+		cursorY += (mouseY - cursorY) * 0.25;
+
+		cursor.style.left = cursorX + "px";
+		cursor.style.top = cursorY + "px";
+
+		// Enhanced glow effect for pen tool
+		if (isHoveringInteractive) {
+			cursor.style.boxShadow = `0 0 30px rgba(255, 43, 47, 0.8), 0 0 60px rgba(255, 43, 47, 0.4), inset 0 0 15px rgba(255, 43, 47, 0.2)`;
+		} else {
+			cursor.style.boxShadow = `0 0 20px rgba(255, 43, 47, 0.5), 0 0 40px rgba(255, 43, 47, 0.2)`;
+		}
+	});
+
+	document.addEventListener("mouseenter", () => {
+		cursor.style.opacity = "1";
+	});
+
+	document.addEventListener("mouseleave", () => {
+		cursor.style.opacity = "0";
+	});
+
+	// Enhance glow on interactive elements
+	const interactiveElements = document.querySelectorAll(
+		"button, a, .project-card, .experience-item, .skill-tag"
+	);
+
+	interactiveElements.forEach((el) => {
+		el.addEventListener("mouseenter", () => {
+			isHoveringInteractive = true;
+			cursor.style.transform =
+				"translate(-12px, -12px) scale(1.2)";
+		});
+
+		el.addEventListener("mouseleave", () => {
+			isHoveringInteractive = false;
+			cursor.style.transform =
+				"translate(-12px, -12px) scale(1)";
+		});
+	});
+
+	// --- ANIMATED SKILL BARS ---
+	function animateSkillBars() {
+		const skillTags = document.querySelectorAll(".skill-tag");
+		const windowHeight = window.innerHeight;
+
+		skillTags.forEach((tag, index) => {
+			const rect = tag.getBoundingClientRect();
+			if (rect.top < windowHeight) {
+				setTimeout(() => {
+					tag.style.opacity = "1";
+					tag.style.transform = "translateX(0)";
+				}, index * 50);
+			}
+		});
+	}
+
+	// Observe skill bars for animation
+	const skillObserver = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					animateSkillBars();
+					skillObserver.unobserve(entry.target);
+				}
+			});
+		},
+		{ threshold: 0.1 }
+	);
+
+	const skillGroup = document.querySelector(".skill-matrix");
+	if (skillGroup) {
+		skillObserver.observe(skillGroup);
+	}
+
+	// --- INTERACTIVE EXPERIENCE TIMELINE ---
+	const experienceItems = document.querySelectorAll(".experience-item");
+
+	experienceItems.forEach((item) => {
+		item.addEventListener("mouseenter", function () {
+			experienceItems.forEach((i) => {
+				if (i !== this) {
+					i.style.opacity = "0.4";
+				}
+			});
+		});
+
+		item.addEventListener("mouseleave", function () {
+			experienceItems.forEach((i) => {
+				i.style.opacity = "1";
+			});
+		});
+
+		// Click to expand experience details with smooth animation
+		item.addEventListener("click", function () {
+			const isExpanded = this.classList.contains("expanded");
+			experienceItems.forEach((i) => i.classList.remove("expanded"));
+			if (!isExpanded) {
+				this.classList.add("expanded");
+			}
+		});
+	});
+
+	// --- PARALLAX EFFECT ON SCROLL ---
+	function applyParallax() {
+		const parallaxElements = document.querySelectorAll("[data-parallax]");
+
+		window.addEventListener(
+			"scroll",
+			() => {
+				parallaxElements.forEach((el) => {
+					const scrollPosition = window.pageYOffset;
+					const elementOffset = el.offsetTop;
+					const distance = scrollPosition - elementOffset;
+					const yPos = distance * 0.5;
+
+					el.style.transform = `translateY(${yPos}px)`;
+				});
+			},
+			{ passive: true }
+		);
+	}
+
+	applyParallax();
+
+	// --- 3D CARD TILT EFFECT ---
+	function apply3DCardTilt() {
+		const projectCards = document.querySelectorAll(".project-card");
+
+		projectCards.forEach((card) => {
+			card.addEventListener("mousemove", (e) => {
+				const rect = card.getBoundingClientRect();
+				const centerX = rect.width / 2;
+				const centerY = rect.height / 2;
+				const mouseX = e.clientX - rect.left;
+				const mouseY = e.clientY - rect.top;
+
+				const rotateX = (mouseY - centerY) / 10;
+				const rotateY = (centerX - mouseX) / 10;
+
+				card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+			});
+
+			card.addEventListener("mouseleave", () => {
+				card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+			});
+		});
+	}
+
+	apply3DCardTilt();
+
+	// --- SMOOTH SCROLL PROGRESS INDICATOR ---
+	function updateScrollProgress() {
+		const scrollHeight =
+			document.documentElement.scrollHeight - window.innerHeight;
+		const scrolled = (window.pageYOffset / scrollHeight) * 100;
+
+		// Store progress for use in CSS if needed
+		document.documentElement.style.setProperty("--scroll-progress", scrolled + "%");
+	}
+
+	window.addEventListener("scroll", updateScrollProgress, { passive: true });
+
+	// --- SKILL FILTER FOR PROJECTS ---
+	function addSkillFilter() {
+		const skillChips = document.querySelectorAll(".skill-chip");
+		const projectCards = document.querySelectorAll(".project-card");
+
+		skillChips.forEach((chip) => {
+			chip.style.cursor = "pointer";
+			chip.addEventListener("click", function (e) {
+				e.stopPropagation();
+				const skillText = this.textContent.trim();
+				const isActive = this.classList.contains("active-filter");
+
+				if (!isActive) {
+					// Clear other active filters
+					skillChips.forEach((c) => c.classList.remove("active-filter"));
+					this.classList.add("active-filter");
+
+					// Filter projects
+					projectCards.forEach((card) => {
+						const cardSkills = card.querySelectorAll(".skill-chip");
+						const hasSkill = Array.from(cardSkills).some(
+							(s) => s.textContent.trim() === skillText
+						);
+
+						if (hasSkill) {
+							card.style.opacity = "1";
+							card.style.pointerEvents = "auto";
+						} else {
+							card.style.opacity = "0.3";
+							card.style.pointerEvents = "none";
+						}
+					});
+				} else {
+					// Clear filter
+					this.classList.remove("active-filter");
+					projectCards.forEach((card) => {
+						card.style.opacity = "1";
+						card.style.pointerEvents = "auto";
+					});
+				}
+			});
+		});
+
+		// Reset filter on card click
+		projectCards.forEach((card) => {
+			card.addEventListener("click", function () {
+				skillChips.forEach((c) => c.classList.remove("active-filter"));
+				projectCards.forEach((c) => {
+					c.style.opacity = "1";
+					c.style.pointerEvents = "auto";
+				});
+			});
+		});
+	}
+
+	addSkillFilter();
+
+	// --- STAGGERED ANIMATION FOR PROJECT GRIDS ---
+	function staggerProjectCards() {
+		const projectGrids = document.querySelectorAll(".projects-grid");
+
+		projectGrids.forEach((grid) => {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const cards = entry.target.querySelectorAll(".project-card");
+							cards.forEach((card, index) => {
+								setTimeout(() => {
+									card.classList.add("card-animated");
+								}, index * 100);
+							});
+							observer.unobserve(entry.target);
+						}
+					});
+				},
+				{ threshold: 0.1 }
+			);
+
+			observer.observe(grid);
+		});
+	}
+
+	staggerProjectCards();
+
 	// Fallback for older browsers
 	const animateOnScroll = () => {
 		const elements = document.querySelectorAll("[data-animate]");

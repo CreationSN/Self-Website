@@ -72,7 +72,7 @@
 
     <!-- About & Stats Section -->
     <section id="about" class="about">
-      <div class="section-drops" data-section="about">
+      <div class="section-drops" data-section="about" data-parallax>
         <span class="drop drop-1"></span>
         <span class="drop drop-2"></span>
         <span class="drop drop-3"></span>
@@ -154,7 +154,7 @@
 
     <!-- Clients Section -->
     <section id="clients" class="clients">
-      <div class="section-drops" data-section="clients">
+      <div class="section-drops" data-section="clients" data-parallax>
         <span class="drop drop-1"></span>
         <span class="drop drop-2"></span>
         <span class="drop drop-3"></span>
@@ -169,7 +169,12 @@
           <button class="filter-btn" data-filter="web">Web Development</button>
         </div>
 
-        <!-- Branding Projects -->
+        <!-- Interactive Skill Filter Hint -->
+        <div class="filter-hint" style="text-align: center; margin: 1rem 0; color: var(--text-light); font-size: 0.85rem; opacity: 0.7;">
+          💡 Tip: Click on skill chips to filter projects by technology
+        </div>
+
+        <!-- Branding Projects Header -->
         <div class="projects-section" data-filter="branding">
           <div class="category-header">
             <h3>Visual Communication & Digital Branding</h3>
@@ -180,8 +185,12 @@
                 class="btn btn-outline">See More on Behance ↗</a>
             </div>
           </div>
-          <div class="projects-grid">
-            <div class="project-card">
+        </div>
+
+        <!-- All Projects Grid -->
+        <div class="projects-grid-wrapper">
+          <div class="projects-grid branding-grid" data-filter="branding">
+            <div class="project-card" data-category="branding">
               <h4>Nepsay Mart - Australia</h4>
               <p>Social Media Management, Content Creation, Poster Design</p>
               <div class="project-skills">
@@ -192,7 +201,7 @@
               <a href="https://www.instagram.com/nepsaymart/" target="_blank" rel="noopener noreferrer"
                 class="project-link">View Profile →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="branding">
               <h4>City of Kuopio - Finland</h4>
               <p>Content Strategy, Visual Design, Campaign Management</p>
               <div class="project-skills">
@@ -203,7 +212,7 @@
               <a href="https://www.instagram.com/talentfirst_finland/" target="_blank" rel="noopener noreferrer"
                 class="project-link">View Profile →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="branding">
               <h4>Infocyst - Nepal</h4>
               <p>Brand Consistency, Creative Concepts, Social Optimization</p>
               <div class="project-skills">
@@ -215,18 +224,18 @@
                 class="project-link">View Profile →</a>
             </div>
           </div>
-        </div>
 
-        <!-- Web Development Projects -->
-        <div class="projects-section" data-filter="web">
-          <div class="client-category" data-animate>
+          <!-- Web Development Header and Projects -->
+          <div class="projects-section" data-filter="web" style="margin-top: 3rem;">
             <div class="category-header">
               <h3>Website Development</h3>
               <p>Responsive websites built with modern technologies including WordPress, React, HTML/CSS, and custom
                 solutions.</p>
             </div>
-            <div class="projects-grid">
-            <div class="project-card">
+          </div>
+
+          <div class="projects-grid web-grid" data-filter="web">
+            <div class="project-card" data-category="web">
               <h4>Weare Solution - Finland</h4>
               <p>Redesign the website with responsive design, user-friendly interface and also language translation features: ENG-FIN</p>
               <div class="project-skills">
@@ -238,7 +247,7 @@
               <a href="https://www.weare.fi/" target="_blank" rel="noopener noreferrer" class="project-link">Visit
                 Site →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="web">
               <h4>Nepsay Mart - Australia</h4>
               <p>E-commerce platform with responsive design and user-friendly interface</p>
               <div class="project-skills">
@@ -249,7 +258,7 @@
               <a href="https://www.nepsaymart.au/" target="_blank" rel="noopener noreferrer" class="project-link">Visit
                 Site →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="web">
               <h4>True North Solar Power - Australia</h4>
               <p>Single-page WordPress site built remotely with custom contact forms, Hostinger setup, and a clean
                 layout that highlights solar energy services.</p>
@@ -261,7 +270,7 @@
               <a href="https://truenorthsolarpower.com.au/" target="_blank" rel="noopener noreferrer"
                 class="project-link">Visit Site →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="web">
               <h4>Quadrum Steammotor - Finland</h4>
               <p>Custom website with HTML, CSS, JavaScript and professional branding</p>
               <div class="project-skills">
@@ -272,7 +281,7 @@
               <a href="https://www.quadrum-steammotor.fi/" target="_blank" rel="noopener noreferrer"
                 class="project-link">Visit Site →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="web">
               <h4>QFoundation - Netherlands</h4>
               <p>WordPress site with content management and integrated forms</p>
               <div class="project-skills">
@@ -283,7 +292,7 @@
               <a href="https://ofoundation.nl/" target="_blank" rel="noopener noreferrer" class="project-link">Visit
                 Site →</a>
             </div>
-            <div class="project-card">
+            <div class="project-card" data-category="web">
               <h4>Somariun Tech - Nepal</h4>
               <p>Tech company website showcasing services and portfolio</p>
               <div class="project-skills">
@@ -296,13 +305,12 @@
             </div>
           </div>
         </div>
-        </div>
       </div>
     </section>
 
     <!-- Experience Section -->
     <section id="experience" class="experience">
-      <div class="section-drops" data-section="experience">
+      <div class="section-drops" data-section="experience" data-parallax>
         <span class="drop drop-1"></span>
         <span class="drop drop-2"></span>
         <span class="drop drop-3"></span>
@@ -362,7 +370,7 @@
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-      <div class="section-drops" data-section="contact">
+      <div class="section-drops" data-section="contact" data-parallax>
         <span class="drop drop-1"></span>
         <span class="drop drop-2"></span>
         <span class="drop drop-3"></span>
