@@ -98,18 +98,9 @@ function animateStatNumbers() {
 	});
 }
 
-// Add text visibility check to scroll listener
-const originalScrollHandler = window.addEventListener(
-	"scroll",
-	() => {
-		if (window.pageYOffset > window.innerHeight * 0.3) {
-			triggerBackgroundDrops();
-		}
-		checkSectionDrops();
-		checkTextVisibility();
-	},
-	{ passive: true }
-);
+// Scroll optimization: Remove old handler - will be replaced with centralized version in DOMContentLoaded
+// Placeholder for lastScrollY to be initialized in DOMContentLoaded
+let lastScrollY = 0;
 
 // --- LOADING SCREEN LOGIC WITH TYPEWRITER ---
 window.addEventListener("load", () => {
@@ -207,18 +198,52 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		});
 
+	// --- MOBILE MENU TOGGLE FUNCTIONALITY ---
+	const hamburgerBtn = document.getElementById("hamburger-btn");
+	const mobileMenu = document.getElementById("mobile-menu");
+	const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
+
+	// Toggle mobile menu on hamburger click
+	if (hamburgerBtn) {
+		hamburgerBtn.addEventListener("click", () => {
+			hamburgerBtn.classList.toggle("active");
+			mobileMenu.classList.toggle("active");
+		});
+	}
+
+	// Close mobile menu when a link is clicked
+	mobileMenuLinks.forEach((link) => {
+		link.addEventListener("click", () => {
+			hamburgerBtn.classList.remove("active");
+			mobileMenu.classList.remove("active");
+		});
+	});
+
+	// Close mobile menu when clicking outside
+	document.addEventListener("click", (e) => {
+		if (
+			!e.target.closest(".mobile-nav") &&
+			mobileMenu.classList.contains("active")
+		) {
+			hamburgerBtn.classList.remove("active");
+			mobileMenu.classList.remove("active");
+		}
+	});
+
 	// Section scroll tracking for active nav indicator
 	const sections = document.querySelectorAll("section[id]");
 	const navLinks = document.querySelectorAll(".nav-link");
 
 	const updateActiveNav = () => {
 		let current = "";
+		const viewportMiddle = window.pageYOffset + window.innerHeight / 2;
 
 		sections.forEach((section) => {
 			const sectionTop = section.offsetTop;
-			const sectionHeight = section.clientHeight;
+			const sectionBottom = sectionTop + section.offsetHeight;
 
-			if (window.pageYOffset >= sectionTop - sectionHeight / 3) {
+			// Determine active section based on the center of the viewport
+			if (viewportMiddle >= sectionTop && viewportMiddle < sectionBottom) {
 				current = section.getAttribute("id");
 			}
 		});
@@ -231,20 +256,54 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	};
 
-	window.addEventListener("scroll", updateActiveNav);
-	updateActiveNav(); // Initial call
+	// --- CENTRALIZED SCROLL HANDLER WITH REQUESTANIMATIONFRAME ---
+	// Combines all scroll-related operations into a single efficient handler
+	let scrollTicking = false;
 
-	// Scroll direction tracking for background drips
-	let lastScrollY = window.pageYOffset;
-	window.addEventListener("scroll", () => {
+	function handleContinuousScrollUpdates() {
 		const currentY = window.pageYOffset;
+		const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+		// 1. Update scroll progress for visual indicators
+		const scrolled = (currentY / scrollHeight) * 100;
+		document.documentElement.style.setProperty("--scroll-progress", scrolled + "%");
+
+		// 2. Check scroll direction for UI animations
 		if (currentY < lastScrollY) {
 			document.body.classList.add("scrolling-up");
 		} else {
 			document.body.classList.remove("scrolling-up");
 		}
 		lastScrollY = currentY <= 0 ? 0 : currentY;
-	});
+
+		// 3. Trigger background drops based on scroll depth
+		if (currentY > window.innerHeight * 0.3) {
+			triggerBackgroundDrops();
+		}
+
+		// 4. Update active navigation link
+		updateActiveNav();
+
+		// 5. Check section drops for animation triggers
+		checkSectionDrops();
+
+		// 6. Check for text visibility on scroll
+		checkTextVisibility();
+
+		// Reset ticking flag to allow next frame
+		scrollTicking = false;
+	}
+
+	// Attach single scroll listener using requestAnimationFrame for optimal performance
+	window.addEventListener("scroll", () => {
+		if (!scrollTicking) {
+			window.requestAnimationFrame(handleContinuousScrollUpdates);
+			scrollTicking = true;
+		}
+	}, { passive: true });
+
+	// Initial call to set active state
+	handleContinuousScrollUpdates();
 
 	// Scroll-triggered animations with Intersection Observer for better performance
 	const observerOptions = {
@@ -294,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
-	// --- PROJECT FILTER FUNCTIONALITY ---
+	// --- PROJECT FILTER FUNCTIONALITY (Improved with CSS Classes) ---
 	const filterBtns = document.querySelectorAll(".filter-btn");
 	const projectGrids = document.querySelectorAll(".projects-grid");
 	const categoryHeaders = document.querySelectorAll(".projects-section");
@@ -307,36 +366,22 @@ document.addEventListener("DOMContentLoaded", () => {
 			filterBtns.forEach((b) => b.classList.remove("active"));
 			btn.classList.add("active");
 
-			// Show/hide projects and category headers
+			// Show/hide projects using CSS classes (no inline styles)
 			categoryHeaders.forEach((header) => {
 				const headerFilter = header.getAttribute("data-filter");
 				if (filterValue === "all" || headerFilter === filterValue) {
-					header.style.display = "block";
-					header.style.opacity = "1";
-					header.style.transform = "translateY(0)";
+					header.classList.remove("is-hidden");
 				} else {
-					header.style.opacity = "0";
-					header.style.transform = "translateY(-20px)";
-					setTimeout(() => {
-						header.style.display = "none";
-					}, 300);
+					header.classList.add("is-hidden");
 				}
 			});
 
 			projectGrids.forEach((grid) => {
 				const gridFilter = grid.getAttribute("data-filter");
 				if (filterValue === "all" || gridFilter === filterValue) {
-					grid.style.display = "grid";
-					setTimeout(() => {
-						grid.style.opacity = "1";
-						grid.style.transform = "translateY(0)";
-					}, 10);
+					grid.classList.remove("is-hidden");
 				} else {
-					grid.style.opacity = "0";
-					grid.style.transform = "translateY(20px)";
-					setTimeout(() => {
-						grid.style.display = "none";
-					}, 300);
+					grid.classList.add("is-hidden");
 				}
 			});
 		});
@@ -499,29 +544,34 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
-	// --- PARALLAX EFFECT ON SCROLL ---
+	// --- PARALLAX EFFECT ON SCROLL (Using CSS Variables) ---
 	function applyParallax() {
 		const parallaxElements = document.querySelectorAll("[data-parallax]");
+		const windowHeight = window.innerHeight;
 
-		window.addEventListener(
-			"scroll",
-			() => {
-				parallaxElements.forEach((el) => {
+		const handleParallax = () => {
+			parallaxElements.forEach((el) => {
+				const rect = el.getBoundingClientRect();
+
+				// Only calculate if the element is within the viewport
+				if (rect.bottom > 0 && rect.top < windowHeight) {
 					const scrollPosition = window.pageYOffset;
 					const elementOffset = el.offsetTop;
 					const distance = scrollPosition - elementOffset;
 					const yPos = distance * 0.5;
 
-					el.style.transform = `translateY(${yPos}px)`;
-				});
-			},
-			{ passive: true }
-		);
+					// Store in CSS variable instead of direct transform
+					el.style.setProperty("--parallax-y", `${yPos}px`);
+				}
+			});
+		};
+
+		window.addEventListener("scroll", handleParallax, { passive: true });
 	}
 
 	applyParallax();
 
-	// --- 3D CARD TILT EFFECT ---
+	// --- 3D CARD TILT EFFECT (Using CSS Variables) ---
 	function apply3DCardTilt() {
 		const projectCards = document.querySelectorAll(".project-card");
 
@@ -536,28 +586,24 @@ document.addEventListener("DOMContentLoaded", () => {
 				const rotateX = (mouseY - centerY) / 10;
 				const rotateY = (centerX - mouseX) / 10;
 
-				card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+				// Store in CSS variables instead of direct transform
+				card.style.setProperty("--rotate-x", `${rotateX}deg`);
+				card.style.setProperty("--rotate-y", `${rotateY}deg`);
+				card.style.setProperty("--card-scale", "1.02");
 			});
 
 			card.addEventListener("mouseleave", () => {
-				card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+				card.style.setProperty("--rotate-x", "0deg");
+				card.style.setProperty("--rotate-y", "0deg");
+				card.style.setProperty("--card-scale", "1");
 			});
 		});
 	}
 
 	apply3DCardTilt();
 
-	// --- SMOOTH SCROLL PROGRESS INDICATOR ---
-	function updateScrollProgress() {
-		const scrollHeight =
-			document.documentElement.scrollHeight - window.innerHeight;
-		const scrolled = (window.pageYOffset / scrollHeight) * 100;
-
-		// Store progress for use in CSS if needed
-		document.documentElement.style.setProperty("--scroll-progress", scrolled + "%");
-	}
-
-	window.addEventListener("scroll", updateScrollProgress, { passive: true });
+	// --- SMOOTH SCROLL PROGRESS INDICATOR (Moved to centralized scroll handler) ---
+	// Already handled in handleScroll function above
 
 	// --- SKILL FILTER FOR PROJECTS ---
 	function addSkillFilter() {

@@ -22,7 +22,7 @@
     <span class="bg-drop bg-drop-3"></span>
   </div>
 
-  <!-- Floating Sidebar Navigation -->
+  <!-- Floating Sidebar Navigation (Desktop) -->
   <nav class="floating-nav">
     <div class="nav-inner">
       <a href="#home" class="nav-logo" title="Home">S</a>
@@ -42,6 +42,24 @@
       </div>
     </div>
   </nav>
+
+  <!-- Mobile Navigation Header -->
+  <header class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <a href="#home" class="mobile-logo">S</a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="#about" class="mobile-menu-link">About</a>
+      <a href="#clients" class="mobile-menu-link">Clients</a>
+      <a href="#experience" class="mobile-menu-link">Experience</a>
+      <a href="#contact" class="mobile-menu-link">Contact</a>
+    </nav>
+  </header>
 
   <main>
     <!-- Hero Section -->
@@ -72,12 +90,13 @@
 
     <!-- About & Stats Section -->
     <section id="about" class="about">
-      <div class="section-drops" data-section="about" data-parallax>
-        <span class="drop drop-1"></span>
-        <span class="drop drop-2"></span>
-        <span class="drop drop-3"></span>
-      </div>
       <div class="container">
+        <!-- <div class="section-drops" data-section="about" data-parallax>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div> -->
+        <h2 class="section-title" data-animate>About Me</h2>
         <div class="stats-row" data-animate>
           <div class="stat-item" data-animate>
             <span class="stat-number">5+</span>
@@ -94,7 +113,6 @@
         </div>
         <div class="about-layout">
           <div class="about-text" data-animate>
-            <h2>About Me</h2>
             <p>
               I'm a creative graphic designer and web developer with expertise in UI/UX design, visual communication,
               and digital branding. My approach combines aesthetic excellence with functional design principles.
@@ -154,12 +172,12 @@
 
     <!-- Clients Section -->
     <section id="clients" class="clients">
-      <div class="section-drops" data-section="clients" data-parallax>
-        <span class="drop drop-1"></span>
-        <span class="drop drop-2"></span>
-        <span class="drop drop-3"></span>
-      </div>
       <div class="container">
+        <!-- <div class="section-drops" data-section="clients" data-parallax>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div> -->
         <h2 class="section-title">My Work</h2>
         
         <!-- Project Filter -->
@@ -310,19 +328,21 @@
 
     <!-- Experience Section -->
     <section id="experience" class="experience">
-      <div class="section-drops" data-section="experience" data-parallax>
-        <span class="drop drop-1"></span>
-        <span class="drop drop-2"></span>
-        <span class="drop drop-3"></span>
-      </div>
       <div class="container">
-        <div class="experience-header">
+        <!--
+        <div class="section-drops" data-section="experience" data-parallax>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div>
+        -->
+        <div class="experience-header" data-animate>
           <h2 class="section-title">Experience</h2>
           <a href="https://drive.google.com/file/d/1uz-FoRDnlGaerUs9T3QFMzhqoO3WwO7C/view?usp=drive_link"
             class="btn btn-outline" target="_blank" rel="noopener noreferrer">View CV ↗</a>
         </div>
-        <div class="experience-list">
-           <div class="experience-item" data-animate>
+        <div class="experience-list" data-animate>
+          <div class="experience-item" data-animate>
             <span class="experience-period">Oct 2025 – Nov 2025</span>
             <h3>WordPress Developer</h3>
             <p class="experience-location">Weare Solution Oy, Finland</p>
@@ -370,12 +390,12 @@
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-      <div class="section-drops" data-section="contact" data-parallax>
-        <span class="drop drop-1"></span>
-        <span class="drop drop-2"></span>
-        <span class="drop drop-3"></span>
-      </div>
       <div class="container">
+        <!-- <div class="section-drops" data-section="contact" data-parallax>
+          <span class="drop drop-1"></span>
+          <span class="drop drop-2"></span>
+          <span class="drop drop-3"></span>
+        </div> -->
         <div class="contact-content" data-animate>
           <h2 class="section-title">Let's Work Together</h2>
           <p class="contact-lead">
