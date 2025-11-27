@@ -1490,7 +1490,7 @@ section::before {
 
 .contact-lead {
 	color: var(--text-light);
-	margin: 1.5rem auto 2rem;
+	margin: 1rem auto 0.8rem;
 	line-height: 1.8;
 }
 
@@ -1499,6 +1499,7 @@ section::before {
 	gap: 1rem;
 	justify-content: center;
 	flex-wrap: wrap;
+	margin-bottom: 1rem;
 }
 
 .contact-details {
@@ -1553,7 +1554,7 @@ section::before {
 .footer {
 	background: var(--bg);
 	border-top: 1px solid var(--border);
-	padding: 2rem 0;
+	padding: 1rem 0;
 	text-align: center;
 	width: 100%;
 	overflow-x: hidden;
