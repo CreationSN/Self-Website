@@ -1471,7 +1471,7 @@ section::before {
 	-webkit-backdrop-filter: blur(5px);
 	border-top: 1px solid var(--border);
 	position: relative;
-	padding: 8rem 0;
+	padding: 4rem 0;
 }
 
 .contact-content {
@@ -1506,6 +1506,7 @@ section::before {
 	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	gap: 1.5rem;
 	padding: 2rem;
+	margin-bottom: 2rem;
 	border: 1px solid rgba(255, 43, 47, 0.2);
 	border-radius: 1.25rem;
 	background: rgba(26, 26, 26, 0.7);
@@ -2924,11 +2925,6 @@ html {
 		gap: 0.6rem;
 	}
 
-	/* Contact Section Mobile */
-	.contact {
-		padding: 4rem 0;
-	}
-
 	/* Filter */
 	.project-filters {
 		flex-direction: column;
@@ -2972,11 +2968,6 @@ html {
 	.contact-lead {
 		font-size: 0.85rem;
 		line-height: 1.6;
-	}
-
-	/* Contact Section Extra Small Mobile */
-	.contact {
-		padding: 3rem 0;
 	}
 
 	/* Skill matrix */
