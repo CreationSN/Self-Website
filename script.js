@@ -367,62 +367,75 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
-	// --- CUSTOM CURSOR TRACKING WITH PEN TOOL EFFECT ---
-	const cursor = document.createElement("div");
-	cursor.classList.add("custom-cursor");
-	document.body.appendChild(cursor);
+	// --- CUSTOM CURSOR TRACKING WITH PEN TOOL EFFECT (Desktop Only) ---
+	// Check if device is touch-based (mobile)
+	const isTouchDevice = () => {
+		return (
+			(navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
+			(navigator.msMaxTouchPoints && navigator.msMaxTouchPoints > 2) ||
+			window.matchMedia("(pointer:coarse)").matches ||
+			("ontouchstart" in window)
+		);
+	};
 
-	let mouseX = 0;
-	let mouseY = 0;
-	let cursorX = 0;
-	let cursorY = 0;
-	let isHoveringInteractive = false;
+	// Only initialize custom cursor on non-touch devices
+	if (!isTouchDevice()) {
+		const cursor = document.createElement("div");
+		cursor.classList.add("custom-cursor");
+		document.body.appendChild(cursor);
 
-	document.addEventListener("mousemove", (e) => {
-		mouseX = e.clientX;
-		mouseY = e.clientY;
+		let mouseX = 0;
+		let mouseY = 0;
+		let cursorX = 0;
+		let cursorY = 0;
+		let isHoveringInteractive = false;
 
-		// Smooth cursor follow with easing
-		cursorX += (mouseX - cursorX) * 0.25;
-		cursorY += (mouseY - cursorY) * 0.25;
+		document.addEventListener("mousemove", (e) => {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
 
-		cursor.style.left = cursorX + "px";
-		cursor.style.top = cursorY + "px";
+			// Smooth cursor follow with easing
+			cursorX += (mouseX - cursorX) * 0.25;
+			cursorY += (mouseY - cursorY) * 0.25;
 
-		// Enhanced glow effect for pen tool
-		if (isHoveringInteractive) {
-			cursor.style.boxShadow = `0 0 30px rgba(255, 43, 47, 0.8), 0 0 60px rgba(255, 43, 47, 0.4), inset 0 0 15px rgba(255, 43, 47, 0.2)`;
-		} else {
-			cursor.style.boxShadow = `0 0 20px rgba(255, 43, 47, 0.5), 0 0 40px rgba(255, 43, 47, 0.2)`;
-		}
-	});
+			cursor.style.left = cursorX + "px";
+			cursor.style.top = cursorY + "px";
 
-	document.addEventListener("mouseenter", () => {
-		cursor.style.opacity = "1";
-	});
-
-	document.addEventListener("mouseleave", () => {
-		cursor.style.opacity = "0";
-	});
-
-	// Enhance glow on interactive elements
-	const interactiveElements = document.querySelectorAll(
-		"button, a, .project-card, .experience-item, .skill-tag"
-	);
-
-	interactiveElements.forEach((el) => {
-		el.addEventListener("mouseenter", () => {
-			isHoveringInteractive = true;
-			cursor.style.transform =
-				"translate(-12px, -12px) scale(1.2)";
+			// Enhanced glow effect for pen tool
+			if (isHoveringInteractive) {
+				cursor.style.boxShadow = `0 0 30px rgba(255, 43, 47, 0.8), 0 0 60px rgba(255, 43, 47, 0.4), inset 0 0 15px rgba(255, 43, 47, 0.2)`;
+			} else {
+				cursor.style.boxShadow = `0 0 20px rgba(255, 43, 47, 0.5), 0 0 40px rgba(255, 43, 47, 0.2)`;
+			}
 		});
 
-		el.addEventListener("mouseleave", () => {
-			isHoveringInteractive = false;
-			cursor.style.transform =
-				"translate(-12px, -12px) scale(1)";
+		document.addEventListener("mouseenter", () => {
+			cursor.style.opacity = "1";
 		});
-	});
+
+		document.addEventListener("mouseleave", () => {
+			cursor.style.opacity = "0";
+		});
+
+		// Enhance glow on interactive elements
+		const interactiveElements = document.querySelectorAll(
+			"button, a, .project-card, .experience-item, .skill-tag"
+		);
+
+		interactiveElements.forEach((el) => {
+			el.addEventListener("mouseenter", () => {
+				isHoveringInteractive = true;
+				cursor.style.transform =
+					"translate(-12px, -12px) scale(1.2)";
+			});
+
+			el.addEventListener("mouseleave", () => {
+				isHoveringInteractive = false;
+				cursor.style.transform =
+					"translate(-12px, -12px) scale(1)";
+			});
+		});
+	}
 
 	// --- ANIMATED SKILL BARS ---
 	function animateSkillBars() {
