@@ -296,7 +296,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// --- PROJECT FILTER FUNCTIONALITY ---
 	const filterBtns = document.querySelectorAll(".filter-btn");
-	const projectSections = document.querySelectorAll(".projects-section");
+	const projectGrids = document.querySelectorAll(".projects-grid");
+	const categoryHeaders = document.querySelectorAll(".projects-section");
 
 	filterBtns.forEach((btn) => {
 		btn.addEventListener("click", () => {
@@ -306,22 +307,36 @@ document.addEventListener("DOMContentLoaded", () => {
 			filterBtns.forEach((b) => b.classList.remove("active"));
 			btn.classList.add("active");
 
-			// Show/hide projects
-			projectSections.forEach((section) => {
-				const sectionFilter = section.getAttribute("data-filter");
-
-				if (filterValue === "all" || sectionFilter === filterValue) {
-					section.classList.remove("hidden");
+			// Show/hide projects and category headers
+			categoryHeaders.forEach((header) => {
+				const headerFilter = header.getAttribute("data-filter");
+				if (filterValue === "all" || headerFilter === filterValue) {
+					header.style.display = "block";
+					header.style.opacity = "1";
+					header.style.transform = "translateY(0)";
+				} else {
+					header.style.opacity = "0";
+					header.style.transform = "translateY(-20px)";
 					setTimeout(() => {
-						section.style.opacity = "1";
-						section.style.transform = "translateY(0)";
+						header.style.display = "none";
+					}, 300);
+				}
+			});
+
+			projectGrids.forEach((grid) => {
+				const gridFilter = grid.getAttribute("data-filter");
+				if (filterValue === "all" || gridFilter === filterValue) {
+					grid.style.display = "grid";
+					setTimeout(() => {
+						grid.style.opacity = "1";
+						grid.style.transform = "translateY(0)";
 					}, 10);
 				} else {
-					section.style.opacity = "0";
-					section.style.transform = "translateY(20px)";
+					grid.style.opacity = "0";
+					grid.style.transform = "translateY(20px)";
 					setTimeout(() => {
-						section.classList.add("hidden");
-					}, 400);
+						grid.style.display = "none";
+					}, 300);
 				}
 			});
 		});
