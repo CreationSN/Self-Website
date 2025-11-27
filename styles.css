@@ -1471,6 +1471,7 @@ section::before {
 	-webkit-backdrop-filter: blur(5px);
 	border-top: 1px solid var(--border);
 	position: relative;
+	padding: 8rem 0;
 }
 
 .contact-content {
@@ -2923,6 +2924,11 @@ html {
 		gap: 0.6rem;
 	}
 
+	/* Contact Section Mobile */
+	.contact {
+		padding: 4rem 0;
+	}
+
 	/* Filter */
 	.project-filters {
 		flex-direction: column;
@@ -2966,6 +2972,11 @@ html {
 	.contact-lead {
 		font-size: 0.85rem;
 		line-height: 1.6;
+	}
+
+	/* Contact Section Extra Small Mobile */
+	.contact {
+		padding: 3rem 0;
 	}
 
 	/* Skill matrix */
