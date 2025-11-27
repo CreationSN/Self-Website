@@ -161,7 +161,16 @@
       </div>
       <div class="container">
         <h2 class="section-title">My Work</h2>
-        <div class="client-category" data-animate>
+        
+        <!-- Project Filter -->
+        <div class="project-filters" data-animate>
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="branding">Graphic Design</button>
+          <button class="filter-btn" data-filter="web">Web Development</button>
+        </div>
+
+        <!-- Branding Projects -->
+        <div class="projects-section" data-filter="branding">
           <div class="category-header">
             <h3>Visual Communication & Digital Branding</h3>
             <p>From concept to campaign, I blend UI/UX thinking, social storytelling, and premium brand systems that
@@ -207,19 +216,23 @@
             </div>
           </div>
         </div>
-        <div class="client-category" data-animate>
-          <div class="category-header">
-            <h3>Website Development</h3>
-            <p>Responsive websites built with modern technologies including WordPress, React, HTML/CSS, and custom
-              solutions.</p>
-          </div>
-          <div class="projects-grid">
+
+        <!-- Web Development Projects -->
+        <div class="projects-section" data-filter="web">
+          <div class="client-category" data-animate>
+            <div class="category-header">
+              <h3>Website Development</h3>
+              <p>Responsive websites built with modern technologies including WordPress, React, HTML/CSS, and custom
+                solutions.</p>
+            </div>
+            <div class="projects-grid">
             <div class="project-card">
               <h4>Weare Solution - Finland</h4>
-              <p>Redesign the websitewith responsive design and user-friendly interface</p>
+              <p>Redesign the website with responsive design, user-friendly interface and also language translation features: ENG-FIN</p>
               <div class="project-skills">
                 <span class="skill-chip">WordPress</span>
                 <span class="skill-chip">WP Forms</span>
+                <span class="skill-chip">TranslatePress</span>
                 <span class="skill-chip">UI/UX</span>
               </div>
               <a href="https://www.weare.fi/" target="_blank" rel="noopener noreferrer" class="project-link">Visit
@@ -283,6 +296,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
@@ -300,6 +314,12 @@
             class="btn btn-outline" target="_blank" rel="noopener noreferrer">View CV ↗</a>
         </div>
         <div class="experience-list">
+           <div class="experience-item" data-animate>
+            <span class="experience-period">Oct 2025 – Nov 2025</span>
+            <h3>WordPress Developer</h3>
+            <p class="experience-location">Weare Solution Oy, Finland</p>
+            <p>Redesign the website with responsive design, user-friendly interface and also language translation features: ENG-FIN</p>
+          </div>
           <div class="experience-item" data-animate>
             <span class="experience-period">Jul 2025 – Sep 2025</span>
             <h3>WordPress Developer</h3>

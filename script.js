@@ -294,6 +294,64 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
+	// --- PROJECT FILTER FUNCTIONALITY ---
+	const filterBtns = document.querySelectorAll(".filter-btn");
+	const projectSections = document.querySelectorAll(".projects-section");
+
+	filterBtns.forEach((btn) => {
+		btn.addEventListener("click", () => {
+			const filterValue = btn.getAttribute("data-filter");
+
+			// Update active button
+			filterBtns.forEach((b) => b.classList.remove("active"));
+			btn.classList.add("active");
+
+			// Show/hide projects
+			projectSections.forEach((section) => {
+				const sectionFilter = section.getAttribute("data-filter");
+
+				if (filterValue === "all" || sectionFilter === filterValue) {
+					section.classList.remove("hidden");
+					setTimeout(() => {
+						section.style.opacity = "1";
+						section.style.transform = "translateY(0)";
+					}, 10);
+				} else {
+					section.style.opacity = "0";
+					section.style.transform = "translateY(20px)";
+					setTimeout(() => {
+						section.classList.add("hidden");
+					}, 400);
+				}
+			});
+		});
+	});
+
+	// --- MOUSE TRACKING SPOTLIGHT EFFECT ON PROJECT CARDS ---
+	const projectCards = document.querySelectorAll(".project-card");
+
+	projectCards.forEach((card) => {
+		card.addEventListener("mousemove", (e) => {
+			const rect = card.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+
+			// Convert to percentage for CSS custom properties
+			const xPercent = (x / rect.width) * 100;
+			const yPercent = (y / rect.height) * 100;
+
+			// Update CSS custom properties for the radial gradient
+			card.style.setProperty("--mouse-x", xPercent + "%");
+			card.style.setProperty("--mouse-y", yPercent + "%");
+		});
+
+		card.addEventListener("mouseleave", () => {
+			// Reset to center on mouse leave
+			card.style.setProperty("--mouse-x", "50%");
+			card.style.setProperty("--mouse-y", "50%");
+		});
+	});
+
 	// Fallback for older browsers
 	const animateOnScroll = () => {
 		const elements = document.querySelectorAll("[data-animate]");
