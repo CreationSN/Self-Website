@@ -604,7 +604,9 @@ body.scrolling-up .bg-drop {
 
 /* Extra small devices */
 @media (max-width: 480px) {
-	/* Floating nav remains hidden on mobile - no mobile nav alternative */
+	.floating-nav {
+		display: none !important;
+	}
 }
 
 /* Hero Section */
