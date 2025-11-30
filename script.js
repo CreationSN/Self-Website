@@ -198,38 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		});
 
-	// --- MOBILE MENU TOGGLE FUNCTIONALITY ---
-	const hamburgerBtn = document.getElementById("hamburger-btn");
-	const mobileMenu = document.getElementById("mobile-menu");
-	const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
-
-	// Toggle mobile menu on hamburger click
-	if (hamburgerBtn) {
-		hamburgerBtn.addEventListener("click", () => {
-			hamburgerBtn.classList.toggle("active");
-			mobileMenu.classList.toggle("active");
-		});
-	}
-
-	// Close mobile menu when a link is clicked
-	mobileMenuLinks.forEach((link) => {
-		link.addEventListener("click", () => {
-			hamburgerBtn.classList.remove("active");
-			mobileMenu.classList.remove("active");
-		});
-	});
-
-	// Close mobile menu when clicking outside
-	document.addEventListener("click", (e) => {
-		if (
-			!e.target.closest(".mobile-nav") &&
-			mobileMenu.classList.contains("active")
-		) {
-			hamburgerBtn.classList.remove("active");
-			mobileMenu.classList.remove("active");
-		}
-	});
-
 	// Section scroll tracking for active nav indicator
 	const sections = document.querySelectorAll("section[id]");
 	const navLinks = document.querySelectorAll(".nav-link");
